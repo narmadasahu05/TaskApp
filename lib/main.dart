@@ -40,22 +40,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  TextEditingController name=TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  
  List<ItemModel> itemList=[
    ItemModel("todo1",false),
     ItemModel("todo2s",false)
  ];
  bool isselect=false;
+ 
  
  List items=[];
   @override
@@ -106,7 +99,36 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title:  TextFormField(
+                    controller: name,
+                   
+                    ),
+                  content: const Text("You have raised a Alert Dialog Box"),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                       setState(() {
+                          ItemModel model =new ItemModel(name.text, false);
+                        model.name = name.text;
+                        model.isSelected = false;
+                        itemList.add(model);
+                       });
+                      },
+                      child: Container(
+                        color: Colors.green,
+                        padding: const EdgeInsets.all(14),
+                        child: const Text("okay",),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
